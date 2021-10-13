@@ -17,7 +17,7 @@ func NewUserService() *UserService {
 
 func (*UserService) AddUser(ctx context.Context, req *pb.User) (*pb.User, error) {
 
-	fmt.Println(req.FirstName)
+	fmt.Printf("User add: %v", req)
 
 	return &pb.User{
 		Id:             1,
