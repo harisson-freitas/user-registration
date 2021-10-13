@@ -1,0 +1,16 @@
+syntax = "proto3";
+package pb;
+option go_package = ".;pb";
+
+message User {
+    int64 id = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string email = 4;
+    string documentNumber = 5;
+    string cellPhone = 6; 
+}
+
+service UserService {
+    rpc AddUser (User) returns (User);
+}
