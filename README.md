@@ -9,10 +9,10 @@
 Esse projeto visa exemplificar de forma simples o processo de comunicação entre serviços utilizando a tecnologia gRPC com a linguagem GO;
 
 Basicamente foram criados os exemplos abaixo:
-- _API_ **_Unary_**;
-- _API_ **_Server Streaming_**;
-- _API_ **_Client Streaming_**;
-- _API_ **_Bidirectional Streaming_**;
+- _API_ [**_Unary_**](#Unary);
+- _API_ [**_Server Streaming_**](#Server-Streaming);
+- _API_ [**_Client Streaming_**](#Client-Streaming);
+- _API_ [**_Bidirectional Streaming_**](Bidirectional-Streaming);
 
 ## Unary
 API _"Unary"_ basicamente consiste em um modelo semelhante ao que estamos habituados com o _REST_:
