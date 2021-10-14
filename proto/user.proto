@@ -11,6 +11,12 @@ message User {
     string cellPhone = 6; 
 }
 
+message UserResultStream {
+    string status = 1;
+    User user = 2;
+}
+
 service UserService {
     rpc AddUser (User) returns (User);
+    rpc AddUserVerbose (User) returns (stream UserResultStream);
 }
