@@ -22,14 +22,17 @@ func main() {
 
 	client := pb.NewUserServiceClient(connection)
 
-	// fmt.Println("Add User")
+	// fmt.Println("******ADD USER******")
 	// AddUser(client)
 
-	fmt.Println("Add UserVerbose")
-	AddUserVerbose(client)
+	// fmt.Println("******ADD USER VERBOSE******")
+	// AddUserVerbose(client)
 
-	// fmt.Println("Add Users")
+	// fmt.Println("******ADD USERS******")
 	// AddUsers(client)
+
+	fmt.Println("******ADD USER STREAM BOTH******")
+	AddUserStreamBoth(client)
 }
 
 func AddUser(client pb.UserServiceClient) {
@@ -83,6 +86,43 @@ func AddUsers(client pb.UserServiceClient) {
 	fmt.Println(res)
 }
 
+func AddUserStreamBoth(client pb.UserServiceClient) {
+	stream, err := client.AddUserStreamBoth(context.Background())
+	if err != nil {
+		log.Fatalf("Error creating request: %v", err)
+	}
+
+	reqs := createUsers()
+	wait := make(chan int)
+
+	go func() {
+		for _, req := range reqs {
+			fmt.Println("Sending user: ", req.FirstName)
+			stream.Send(req)
+			time.Sleep(time.Second * 2)
+		}
+		stream.CloseSend()
+	}()
+
+	go func() {
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatalf("Error receiving data: %v", err)
+				break
+			}
+
+			fmt.Printf("Recebendo user %v com status: %v\n", res.GetUser().GetFirstName(), res.GetStatus())
+		}
+		close(wait)
+	}()
+
+	<-wait
+}
+
 func createUser() *pb.User {
 	return &pb.User{
 		Id:             1,
@@ -96,7 +136,7 @@ func createUser() *pb.User {
 
 func createUsers() []*pb.User {
 	return []*pb.User{
-		&pb.User{
+		{
 			Id:             1,
 			FirstName:      "Leon",
 			LastName:       "Kennedy",
@@ -104,7 +144,7 @@ func createUsers() []*pb.User {
 			DocumentNumber: "3434343434-900",
 			CellPhone:      "555 334343434",
 		},
-		&pb.User{
+		{
 			Id:             2,
 			FirstName:      "Chris",
 			LastName:       "Redfield",
@@ -112,7 +152,7 @@ func createUsers() []*pb.User {
 			DocumentNumber: "4545454545-800",
 			CellPhone:      "555 0903940909",
 		},
-		&pb.User{
+		{
 			Id:             3,
 			FirstName:      "Jill",
 			LastName:       "Valentine",
@@ -120,7 +160,7 @@ func createUsers() []*pb.User {
 			DocumentNumber: "545454545-908",
 			CellPhone:      "555 7879897978",
 		},
-		&pb.User{
+		{
 			Id:             4,
 			FirstName:      "Claire",
 			LastName:       "Redfield",
