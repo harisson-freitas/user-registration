@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
 	"time"
 
@@ -36,6 +37,26 @@ func (*UserService) AddUserVerbose(req *pb.User, stream pb.UserService_AddUserVe
 	insertRegistration(req, stream)
 	finishRegistration(req, stream)
 	return nil
+}
+
+func (*UserService) AddUsers(stream pb.UserService_AddUsersServer) error {
+	users := []*pb.User{}
+
+	for {
+		req, err := stream.Recv()
+		if err == io.EOF {
+			return stream.SendAndClose(&pb.Users{
+				User: users,
+			})
+		}
+
+		if err != nil {
+			log.Fatalf("Error receiving stream: %v", err)
+		}
+
+		users = append(users, createUser(req))
+		fmt.Println("Adding", req.GetFirstName())
+	}
 }
 
 func startRegistration(stream pb.UserService_AddUserVerboseServer) error {
@@ -92,13 +113,17 @@ func retrieveEmptyUser(status string) (*pb.UserResultStream, error) {
 func retrieveFilledUser(req *pb.User, status string) (*pb.UserResultStream, error) {
 	return &pb.UserResultStream{
 		Status: status,
-		User: &pb.User{
-			Id:             req.GetId(),
-			FirstName:      req.GetFirstName(),
-			LastName:       req.GetLastName(),
-			Email:          req.GetEmail(),
-			DocumentNumber: req.GetDocumentNumber(),
-			CellPhone:      req.GetCellPhone(),
-		},
+		User:   createUser(req),
 	}, nil
+}
+
+func createUser(req *pb.User) *pb.User {
+	return &pb.User{
+		Id:             req.GetId(),
+		FirstName:      req.GetFirstName(),
+		LastName:       req.GetLastName(),
+		Email:          req.GetEmail(),
+		DocumentNumber: req.GetDocumentNumber(),
+		CellPhone:      req.GetCellPhone(),
+	}
 }
