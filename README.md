@@ -18,47 +18,47 @@ Basicamente foram criados os exemplos abaixo:
 API _"Unary"_ basicamente consiste em um modelo semelhante ao que estamos habituados com o _REST_:
 </br> 
 
-- Fluxo:</br></br>
+- Fluxo:</br>
   - ![text](media/img/unary.png)
-</br></br>
+</br>
 
-- Execução:</br></br>
+- Execução:</br>
   - ![](media/gif/unary.gif)
-</br></br>
+</br>
 
 ## Server Streaming
 API _"Server Streaming"_ tem como premissa quando um cliente faz uma requisição, o servidor dentro da _**"mesma requisição"**_ disponibiliza o retorno por etapas, não necessariamente a informação no servidor precisa estar totalmente concluída/processada para ser retornada para o cliente:
 </br>
 
-- Fluxo: </br></br>
+- Fluxo: </br>
   - ![text](media/img/serverStreaming.png)
-</br></br>
+</br>
 
-- Execução: </br></br>
+- Execução: </br>
   - ![](media/gif/serverStreaming.gif)
-</br></br>
+</br>
 
 ## Client Streaming
 API _"Client Streaming"_ tem como premissa que um client pode fazer uma requisição por etapas para o servidor, não precisa necessariamente enviar a informação completa para ser processada, mantendo esse comportamente dentro da _**"mesma requisição"**_:
 </br>
 
-- Fluxo: </br></br>
+- Fluxo: </br>
   - ![text](media/img/clientStreaming.png)
-</br></br>
+</br>
 
-- Execução: </br></br>
+- Execução: </br>
   - ![](media/gif/clientStreaming.gif)
-</br></br>
+</br>
 
 ## Bidirectional Streaming
 API _"Bidirectional Streaming"_ tem como premissa executar simultaneamente dentro da _**"mesma requisição"**_ o coportamente do **_Server Streaming_** e do **_Client Streaming_**:
 </br>
 
-- Fluxo:</br></br>
+- Fluxo:</br>
    - ![text](media/img/bidirectional.png) 
-</br></br>
+</br>
 
-- Execução: </br></br>
+- Execução: </br>
   - ![](media/gif/bidirectional.gif)
 </br>
 
