@@ -22,17 +22,21 @@ func main() {
 
 	client := pb.NewUserServiceClient(connection)
 
-	// fmt.Println("******ADD USER******")
-	// AddUser(client)
+	fmt.Println("******ADD USER******")
+	AddUser(client)
+	fmt.Println()
 
-	// fmt.Println("******ADD USER VERBOSE******")
-	// AddUserVerbose(client)
+	fmt.Println("******ADD USER VERBOSE******")
+	AddUserVerbose(client)
+	fmt.Println()
 
-	// fmt.Println("******ADD USERS******")
-	// AddUsers(client)
+	fmt.Println("******ADD USERS******")
+	AddUsers(client)
+	fmt.Println()
 
 	fmt.Println("******ADD USER STREAM BOTH******")
 	AddUserStreamBoth(client)
+	fmt.Println()
 }
 
 func AddUser(client pb.UserServiceClient) {

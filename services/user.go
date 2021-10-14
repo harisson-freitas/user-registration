@@ -76,6 +76,8 @@ func (*UserService) AddUserStreamBoth(stream pb.UserService_AddUserStreamBothSer
 		if err != nil {
 			log.Fatalf("Error sending stream to the client: %v", err)
 		}
+
+		fmt.Println("Adding", req.GetFirstName())
 	}
 }
 
