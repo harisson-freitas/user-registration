@@ -19,9 +19,7 @@ func NewUserService() *UserService {
 }
 
 func (*UserService) AddUser(ctx context.Context, req *pb.User) (*pb.User, error) {
-
 	fmt.Printf("User add: %v", req)
-
 	return &pb.User{
 		Id:             1,
 		FirstName:      req.GetFirstName(),
@@ -56,6 +54,28 @@ func (*UserService) AddUsers(stream pb.UserService_AddUsersServer) error {
 
 		users = append(users, createUser(req))
 		fmt.Println("Adding", req.GetFirstName())
+	}
+}
+
+func (*UserService) AddUserStreamBoth(stream pb.UserService_AddUserStreamBothServer) error {
+	for {
+		req, err := stream.Recv()
+		if err == io.EOF {
+			return nil
+		}
+
+		if err != nil {
+			log.Fatalf("Error receiving stream from the client: %v", err)
+		}
+
+		err = stream.Send(&pb.UserResultStream{
+			Status: "Added",
+			User:   req,
+		})
+
+		if err != nil {
+			log.Fatalf("Error sending stream to the client: %v", err)
+		}
 	}
 }
 
